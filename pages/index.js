@@ -1,21 +1,78 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+// import styles from "../styles/Home.module.css";
+import React, { useState, useEffect, useContext } from "react";
+import Head from "next/head";
+import Header from "../components/shared/Header";
+import Chat from "../components/Chat";
+import Signin from "../components/shared/Signin";
+import io from "socket.io-client";
+import feathers from "@feathersjs/client";
+import { withRouter } from "next/router";
+import {
+  GlobalStateProvider as stateProvider,
+  GlobalDispatchProvider as disProvider,
+} from "../context/GlobalContextProvider";
+import Footer from "../components/shared/Footer";
 
-export default function Home() {
+const socket = io(process.env.REACT_APP_SERVER_URL);
+const client = feathers();
+client.configure(feathers.socketio(socket));
+client.configure(feathers.authentication());
+
+function Home({ router }) {
+  const [displaySignin, setDisplaySignin] = useState(false);
+  const [displayLogout, setDisplayLogout] = useState(false);
+  const globalState = useContext(stateProvider);
+  const dispatch = useContext(disProvider);
+
+  const autoLogin = async () => {
+    try {
+      const response = await client.reAuthenticate();
+
+      if (response) {
+        dispatch({ type: "CONNECT", payload: response.user });
+      }
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    if (!globalState.justSignedUp) {
+      autoLogin();
+    }
+  }, []);
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
-        <title>Create Next App</title>
+        <title>Marvel-Home</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
+      <main
+        onClick={() => {
+          setDisplayLogout(false);
+        }}
+        className="flex flex-col items-center h-screen relative"
+      >
+        {displaySignin && <Signin setDisplaySignin={setDisplaySignin} />}
+        <Header
+          setDisplaySignin={setDisplaySignin}
+          displayLogout={displayLogout}
+          setDisplayLogout={setDisplayLogout}
+          displaySearch={false}
+          nav={router.pathname}
+        />
+        <div className="flex flex-grow">
+          <Chat />
+        </div>
+        <Footer />
+      </main>
+
+      {/* <main className={styles.main}>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
         <p className={styles.description}>
-          Get started by editing{' '}
+          Get started by editing{" "}
           <code className={styles.code}>pages/index.js</code>
         </p>
 
@@ -56,10 +113,12 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
         </a>
-      </footer>
+      </footer> */}
     </div>
-  )
+  );
 }
+
+export default withRouter(Home);
