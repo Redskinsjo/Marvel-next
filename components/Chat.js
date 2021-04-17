@@ -3,7 +3,7 @@ import feathers from "@feathersjs/client";
 import io from "socket.io-client";
 import { GlobalStateProvider as stateProvider } from "../context/GlobalContextProvider";
 
-const socket = io(process.env.REACT_APP_SERVER_URL_PRODUCTION);
+const socket = io(process.env.REACT_APP_SERVER_URL);
 const app = feathers();
 app.configure(feathers.socketio(socket));
 
