@@ -5,6 +5,7 @@ module.exports = {
     REACT_APP_SERVER_URL:
       process.env.REACT_APP_SERVER_URL_DEV ||
       process.env.REACT_APP_SERVER_URL_PRODUCTION,
+    REACT_APP_DATA_API: process.env.REACT_APP_DATA_API,
   },
   output: {
     filename: "my-first-webpack.bundle.js",
