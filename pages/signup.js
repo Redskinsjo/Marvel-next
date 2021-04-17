@@ -63,7 +63,7 @@ export default function Signup() {
       const rand = Math.floor(Math.random() * (colors.length - 1 - 0) + 0);
       const color = colors[rand];
 
-      await axios.post(process.env.REACT_APP_SERVER_URL + "users", {
+      await axios.post(process.env.REACT_APP_SERVER_URL + "/users", {
         email,
         password,
         firstname,
