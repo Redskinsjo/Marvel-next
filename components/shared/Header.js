@@ -7,7 +7,7 @@ import {
 } from "../../context/GlobalContextProvider";
 import Link from "next/link";
 
-const socket = io(process.env.REACT_APP_SERVER_URL);
+const socket = io(process.env.REACT_APP_SERVER_URL_PRODUCTION);
 const client = feathers();
 client.configure(feathers.socketio(socket));
 client.configure(feathers.authentication());

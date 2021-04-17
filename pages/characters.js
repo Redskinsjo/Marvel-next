@@ -124,7 +124,7 @@ export async function getStaticProps() {
 
   try {
     const responseResults = await axios.post(
-      "https://backendmarvel.herokuapp.com/characters",
+      process.env.REACT_APP_DATA_API + "/characters",
       { limit: 20 }
     );
     presMainData = responseResults.data.results;
@@ -132,7 +132,7 @@ export async function getStaticProps() {
     const chars = [];
     for (let i = 0; i < presMainData.length; i++) {
       const comics = await axios.get(
-        `https://backendmarvel.herokuapp.com/character/${presMainData[i].id}/comics`
+        `${process.env.REACT_APP_DATA_API}/character/${presMainData[i].id}/comics`
       );
       chars.push({
         id: presMainData[i].id,
