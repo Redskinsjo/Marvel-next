@@ -84,6 +84,7 @@ export default function Chat() {
             diffHours = null;
           }
           console.log(msg, msg.color);
+          console.log(globalState, globalState.messages.color);
           return (
             <div key={index} className="items-start">
               <div
@@ -96,7 +97,7 @@ export default function Chat() {
               >
                 <div
                   className={`text-${
-                    msg.author ? msg.author.messages.color : msg.color
+                    globalState ? msg.author.messages.color : msg.color
                   }-500 text-sm mx-2 flex flex-col justify-between h-full mt-chat min-w-70px`}
                 >
                   <p>
