@@ -83,8 +83,7 @@ export default function Chat() {
             );
             diffHours = null;
           }
-          console.log(msg, msg.color);
-          // console.log(globalState, globalState.messages.color);
+          console.log(1);
           return (
             <div key={index} className="items-start">
               <div
@@ -146,8 +145,6 @@ export default function Chat() {
             onScroll={(e) => {
               e.target.style.height =
                 Number(e.target.style.height.slice(0, 2)) + 10 + "px";
-
-              console.log(e.target.style.height);
             }}
           />
         </div>
