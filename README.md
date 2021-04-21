@@ -15,8 +15,10 @@ Front:
 - Heroicons
 
 Back:
+[API Feathers for authentication and realtime chat](https://github.com/Redskinsjo/marvel-api-auth-feathers)
 - Feathers
 - Socket.io
+[API Express] for fetching data(https://github.com/Redskinsjo/Marvel-api)
 - Express
 
 DB:
