@@ -5,19 +5,26 @@ import CharLineforComic from "../components/CharLineforComic";
 export default function Line({ chars, comics, desc, name, url }) {
   const [descEmpty, setDescEmpty] = useState(desc ? false : true);
   const [displayDesc, setDisplayDesc] = useState(false);
+
+  // Component serving for a character ("/character") or a comic ("/comics")
   return (
     <>
+      {/* JSX when the button "+" was not clicked */}
       {!displayDesc ? (
-        <div className="flex w-full h-20 box-content py-2 border-b-2 border-gray-200">
-          <div className="h-full w-20">
+        <div className="flex w-full h-20 box-content py-2 border-b-2 border-gray-200 cursor-pointer hover:bg-black group">
+          <div className="h-full w-20 hover:animate-pulse">
             <img src={url} alt={name} className="h-full w-full object-fill" />
           </div>
           <div className="flex justify-center items-start w-32">
-            <span className="text-center mt-2 font-semibold">{name}</span>
+            <span className="text-center mt-2 font-semibold group-hover:text-white">
+              {name}
+            </span>
           </div>
           <div
             className={`flex items-start mt-2 w-96 ${
-              descEmpty ? "bg-gray-300 h-64px" : "bg-red-100 h-72px"
+              descEmpty
+                ? "bg-gray-300 h-64px"
+                : "bg-red-100 h-72px group-hover:bg-white"
             } relative`}
           >
             <p className="h-full overflow-ellipsis overflow-hidden">{desc}</p>
@@ -29,7 +36,8 @@ export default function Line({ chars, comics, desc, name, url }) {
                 viewBox="0 0 24 24"
                 stroke="currentColor"
                 className="absolute bottom-0 right-0 w-4 hover:text-lg cursor-pointer"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   setDisplayDesc(true);
                 }}
               >
@@ -59,6 +67,7 @@ export default function Line({ chars, comics, desc, name, url }) {
                       comicsLength={comics?.length}
                       id={comic.id}
                       key={comic.id}
+                      style={"group-hover:text-white"}
                     />
                   );
                 })
@@ -68,17 +77,22 @@ export default function Line({ chars, comics, desc, name, url }) {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col">
+        /* JSX when the button "+" was clicked to show the full description */
+        <div className="flex flex-col cursor-pointer hover:bg-black group">
           <div className="flex w-full h-20 mt-2">
-            <div className="h-full w-20">
+            <div className="h-full w-20 hover:animate-pulse">
               <img src={url} alt={name} className="h-full w-full object-fill" />
             </div>
             <div className="flex justify-center items-start w-32">
-              <span className="text-center mt-2 font-semibold">{name}</span>
+              <span className="text-center mt-2 font-semibold group-hover:text-white">
+                {name}
+              </span>
             </div>
             <div
               className={`flex items-start mt-2 w-96 ${
-                descEmpty ? "bg-gray-300 h-64px" : "bg-red-100 h-72px"
+                descEmpty
+                  ? "bg-gray-300 h-64px"
+                  : "bg-red-100 h-72px group-hover:bg-white"
               } relative z-10`}
             >
               <p className="h-full">{desc}</p>
@@ -100,6 +114,7 @@ export default function Line({ chars, comics, desc, name, url }) {
                         comicsLength={comics?.length}
                         id={comic.id}
                         key={comic.id}
+                        style={"group-hover:text-white"}
                       />
                     );
                   })
@@ -113,7 +128,9 @@ export default function Line({ chars, comics, desc, name, url }) {
             <div className="flex justify-center items-start w-32"></div>
             <div
               className={`flex items-start w-96 ${
-                descEmpty ? "bg-gray-300 h-64px" : "bg-red-100 h-72px"
+                descEmpty
+                  ? "bg-gray-300 h-64px"
+                  : "bg-red-100 h-72px group-hover:bg-white"
               } relative`}
             >
               <svg

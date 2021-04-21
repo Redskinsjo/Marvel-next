@@ -1,6 +1,7 @@
 const plugin = require("tailwindcss/plugin");
 
 module.exports = {
+  separator: ":",
   purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   darkMode: false, // or 'media' or 'class'
   theme: {
@@ -29,6 +30,8 @@ module.exports = {
       borderColor: ["group-focus"],
       width: ["hover"],
       animation: ["hover"],
+      backgroundColor: [],
+      textColor: ["targetChildSpan"],
     },
   },
   plugins: [
@@ -85,8 +88,35 @@ module.exports = {
         ".w-688px": {
           width: "688px",
         },
+        ".h-410px": {
+          height: "410px",
+        },
       };
       addUtilities(newUtilities);
+    }),
+    plugin(function ({ addVariant, e }) {
+      addVariant("targetNextSibling", ({ modifySelectors, separator }) => {
+        modifySelectors(
+          ({ className }) =>
+            `.${e(`targetNextSibling${separator}${className}`)}:hover + *`
+        );
+      });
+    }),
+    plugin(function ({ addVariant, e }) {
+      addVariant("focused-sibling", ({ container }) => {
+        container.walkRules((rule) => {
+          rule.selector = `:focus + .focused-sibling\\:${rule.selector.slice(
+            1
+          )}`;
+        });
+      });
+    }),
+    plugin(function ({ addVariant, e }) {
+      addVariant("targetChildSpan", ({ modifySelectors, separator }) => {
+        modifySelectors(({ className }) => {
+          return `.${e(`targetChildSpan${separator}${className}`)}:hover span`;
+        });
+      });
     }),
   ],
 };

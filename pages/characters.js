@@ -9,11 +9,11 @@ import axios from "axios";
 import Card from "../components/Card";
 import Line from "../components/Line";
 
-function Characters({ router, presMainData, presComics }) {
+function Characters({ router, presMainData, characters }) {
   const [displaySignin, setDisplaySignin] = useState(false);
   const [displayLogout, setDisplayLogout] = useState(false);
   const dispatch = useContext(disProvider);
-  const [characters, setCharacters] = useState(presComics);
+  // const [characters, setCharacters] = useState(presComics);
   const [displayDesc, setDisplayDesc] = useState(false);
 
   const autoLogin = async () => {
@@ -58,7 +58,7 @@ function Characters({ router, presMainData, presComics }) {
                 <Card
                   name={card.name}
                   url={card.thumbnail.path + "." + card.thumbnail.extension}
-                  isClickable={false}
+                  isClickable={true}
                   key={card.id}
                 />
               ))}
@@ -120,7 +120,7 @@ function Characters({ router, presMainData, presComics }) {
 
 export async function getStaticProps() {
   let presMainData;
-  let presComics;
+  let characters;
 
   try {
     const responseResults = await axios.post(
@@ -139,12 +139,12 @@ export async function getStaticProps() {
         comics: comics.data,
       });
     }
-    presComics = chars;
+    characters = chars;
   } catch (error) {
     console.log("line 112", error.message);
   }
 
-  return { props: { presMainData, presComics } };
+  return { props: { presMainData, characters } };
 }
 
 export default withRouter(Characters);

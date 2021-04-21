@@ -1,18 +1,44 @@
 import React from "react";
+import Image from "next/image";
 
-export default function Card({ name, url, isClickable }) {
+export default function Card({ name, url, isClickable, horizontal }) {
+  // Component serving the different types of card on "/characters", "/comics" or on "/[id].js"
   return (
-    <div className="w-48 pl-2 bg-gray-200">
-      <div className="flex flex-col items-center relative">
-        <img
-          src={url}
-          alt={name}
-          className="w-48 h-48 object-fill hover:animate-pulse cursor-pointer"
-        />
-        <span className="absolute -bottom-4 bg-opacity-90 border-black border-2 bg-gray-100 text-black p-0.5 rounded-lg text-center m-1">
-          {name}
+    <div
+      className={`${
+        isClickable ? "bg-gray-200 pl-4 w-48 ml-4" : "bg-gray-100"
+      } ${horizontal ? "pr-4" : "pb-4"}`}
+    >
+      <div
+        className={`flex flex-col items-center relative ${
+          isClickable ? "w-48" : "w-32"
+        }`}
+      >
+        {url[0] === "/" ? (
+          <div className="w-32 h-32 hover:animate-pulse">
+            <Image
+              src="/images/notfound.jpg"
+              layout="fill"
+              objectFit="cover"
+              alt={name}
+            />
+          </div>
+        ) : (
+          <img
+            src={url}
+            alt={name}
+            className={`${
+              isClickable ? "w-48 h-48" : "w-32 h-32"
+            } object-fill hover:animate-pulse`}
+          />
+        )}
+
+        <span
+          className={`absolute -bottom-4 bg-opacity-90 border-black border-2 bg-gray-100 text-black p-0.5 rounded-lg text-center m-1`}
+        >
+          {name && name.length > 22 ? name.slice(0, 22) : name}
         </span>
-        {isClickable && (
+        {/* {isClickable && (
           <div className="flex justify-center items-center">
             <div className="py-2 px-4 cursor-pointer flex">
               <svg
@@ -32,7 +58,7 @@ export default function Card({ name, url, isClickable }) {
               <span>Add to favourites</span>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );
