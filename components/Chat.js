@@ -95,7 +95,9 @@ export default function Chat() {
                 }
               >
                 <div
-                  className={`text-${msg.color}-500 text-sm mx-2 flex flex-col justify-between h-full mt-chat min-w-70px`}
+                  className={`text-${
+                    msg.author ? msg.author.messages.color : msg.color
+                  }-500 text-sm mx-2 flex flex-col justify-between h-full mt-chat min-w-70px`}
                 >
                   <p>
                     {msg.author?.firstname
@@ -107,7 +109,9 @@ export default function Chat() {
                   <span className="h-16px w-full"></span>
                 </div>
                 <div
-                  className={`whitespace-pre-line mr-4 break-word min-w-90px bg-${msg.color}-100 rounded-md p-1`}
+                  className={`whitespace-pre-line mr-4 break-word min-w-90px bg-${
+                    msg.author ? msg.author.messages.color : msg.color
+                  }-100 rounded-md p-1`}
                 >
                   <p>{msg.text}</p>
                   <span className="text-xs flex justify-end">

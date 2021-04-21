@@ -76,9 +76,7 @@ export default function Signup() {
         email,
         password,
       });
-      // console.log(login);
       dispatch({ type: "SIGN_UP", payload: login.user });
-      console.log(globalState);
 
       router.push("/");
     } catch (error) {
