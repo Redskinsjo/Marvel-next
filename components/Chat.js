@@ -83,7 +83,8 @@ export default function Chat() {
             );
             diffHours = null;
           }
-          console.log(1);
+          console.log(msg.color);
+
           return (
             <div key={index} className="items-start">
               <div
