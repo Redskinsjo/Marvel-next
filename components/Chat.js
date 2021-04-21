@@ -39,15 +39,15 @@ export default function Chat() {
 
   useEffect(() => {
     settleMessageService();
-    setTimeout(
-      () =>
-        chatBoxRef.current.scrollTo({
-          top: chatBoxRef.current.scrollHeight,
-          left: 0,
-          behavior: "smooth",
-        }),
-      500
-    );
+    // setTimeout(
+    //   () =>
+    //     chatBoxRef.current.scrollTo({
+    //       top: chatBoxRef.current.scrollHeight,
+    //       left: 0,
+    //       behavior: "smooth",
+    //     }),
+    //   500
+    // );
   }, []);
 
   return (
@@ -84,7 +84,7 @@ export default function Chat() {
             diffHours = null;
           }
           console.log(msg, msg.color);
-          console.log(globalState);
+          // console.log(globalState, globalState.messages.color);
           return (
             <div key={index} className="items-start">
               <div
@@ -96,9 +96,7 @@ export default function Chat() {
                 }
               >
                 <div
-                  className={`text-${
-                    globalState ? msg.author.messages.color : msg.color
-                  }-500 text-sm mx-2 flex flex-col justify-between h-full mt-chat min-w-70px`}
+                  className={`text-${msg.color}-500 text-sm mx-2 flex flex-col justify-between h-full mt-chat min-w-70px`}
                 >
                   <p>
                     {msg.author?.firstname
@@ -110,9 +108,7 @@ export default function Chat() {
                   <span className="h-16px w-full"></span>
                 </div>
                 <div
-                  className={`whitespace-pre-line mr-4 break-word min-w-90px bg-${
-                    msg.author ? msg.author.messages.color : msg.color
-                  }-100 rounded-md p-1`}
+                  className={`whitespace-pre-line mr-4 break-word min-w-90px bg-${msg.color}-100 rounded-md p-1`}
                 >
                   <p>{msg.text}</p>
                   <span className="text-xs flex justify-end">
