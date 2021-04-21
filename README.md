@@ -19,7 +19,7 @@ Back:
 - Feathers
 - Socket.io
 
-[API Express] for fetching data(https://github.com/Redskinsjo/Marvel-api)
+[API Express for fetching data](https://github.com/Redskinsjo/Marvel-api)
 - Express
 
 DB:
