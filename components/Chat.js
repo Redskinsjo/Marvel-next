@@ -140,7 +140,7 @@ export default function Chat() {
             onChange={(e) => {
               setUserInput(e.target.value);
             }}
-            className="w-full flex focus:outline-none pl-2 pt-2"
+            className="w-full flex focus:outline-none pl-2 pt-2 min-h-40px"
             style={{ height: 40 }}
             ref={sendMsgRef}
             onScroll={(e) => {

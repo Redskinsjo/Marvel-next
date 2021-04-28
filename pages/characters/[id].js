@@ -11,11 +11,13 @@ import Footer from "../../components/shared/Footer";
 import Profile from "../../components/Profile";
 import ScrollView from "../../components/shared/ScrollView";
 
-function Comic({ router, data, characters, events, stories, creators }) {
+function Character({ router, data, comics, events, stories, series }) {
   const [displaySignin, setDisplaySignin] = useState(false);
   const [displayLogout, setDisplayLogout] = useState(false);
   const dispatch = useContext(disProvider);
   const [isReady, setIsReady] = useState(false);
+
+  console.log(router);
 
   //   const defaultOptions = {
   //     loop: true,
@@ -98,7 +100,7 @@ function Comic({ router, data, characters, events, stories, creators }) {
                   <ScrollView horizontal={false} data={events} />
                 </div>
                 <div className="h-410px flex flex-col justify-center items-center relative">
-                  {creators && creators.length > 2 && (
+                  {series && series.length > 2 && (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-6 w-6"
@@ -115,13 +117,14 @@ function Comic({ router, data, characters, events, stories, creators }) {
                       />
                     </svg>
                   )}
-                  <h3 className="font-bold text-lg">Creators</h3>
-                  <ScrollView horizontal={true} data={creators} />
+                  <h3 className="font-bold text-lg">Series</h3>
+                  <ScrollView horizontal={true} data={series} />
                 </div>
               </div>
               <div className="w-1/3">
                 <Profile
                   title={data[0].title}
+                  name={data[0].name}
                   url={
                     data[0].thumbnail.path + "." + data[0].thumbnail.extension
                   }
@@ -135,7 +138,7 @@ function Comic({ router, data, characters, events, stories, creators }) {
               </div>
               <div className="w-1/3">
                 <div className="h-410px flex flex-col justify-center items-center relative">
-                  {characters && characters.length > 2 && (
+                  {comics && comics.length > 2 && (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-6 w-6"
@@ -152,8 +155,8 @@ function Comic({ router, data, characters, events, stories, creators }) {
                       />
                     </svg>
                   )}
-                  <h3 className="font-bold text-lg">Characters</h3>
-                  <ScrollView horizontal={false} data={characters} />
+                  <h3 className="font-bold text-lg">Comics</h3>
+                  <ScrollView horizontal={false} data={comics} />
                 </div>
                 <div className="h-410px flex flex-col justify-center items-center relative">
                   {stories && stories.length > 2 && (
@@ -191,17 +194,17 @@ export async function getStaticPaths() {
   try {
     const {
       data: { results, total },
-    } = await axios.post(process.env.REACT_APP_DATA_API + "/comics");
+    } = await axios.post(process.env.REACT_APP_DATA_API + "/characters");
 
-    paths = results.map((comic) => {
+    paths = results.map((char) => {
       return {
         params: {
-          id: String(comic.id),
+          id: String(char.id),
         },
       };
     });
   } catch (error) {
-    console.log(error.message);
+    console.log("line 211", error.message);
   }
 
   return { paths, fallback: true };
@@ -210,35 +213,35 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   if (params.id) {
     try {
-      let comicInfo = await axios.get(
-        `${process.env.REACT_APP_DATA_API}/comic/${params.id}`
+      let characterInfo = await axios.get(
+        `${process.env.REACT_APP_DATA_API}/character/${params.id}`
       );
-      let characters = await axios.get(
-        `${process.env.REACT_APP_DATA_API}/comic/${params.id}/characters`
+      let comics = await axios.get(
+        `${process.env.REACT_APP_DATA_API}/character/${params.id}/comics`
       );
       let events = await axios.get(
-        `${process.env.REACT_APP_DATA_API}/comic/${params.id}/events`
+        `${process.env.REACT_APP_DATA_API}/character/${params.id}/events`
       );
       let stories = await axios.get(
-        `${process.env.REACT_APP_DATA_API}/comic/${params.id}/stories`
+        `${process.env.REACT_APP_DATA_API}/character/${params.id}/stories`
       );
-      let creators = await axios.get(
-        `${process.env.REACT_APP_DATA_API}/comic/${params.id}/creators`
+      let series = await axios.get(
+        `${process.env.REACT_APP_DATA_API}/character/${params.id}/series`
       );
 
       return params.id
         ? {
             props: {
-              data: comicInfo.data,
-              characters: characters.data,
+              data: characterInfo.data,
+              comics: comics.data,
               events: events.data,
               stories: stories.data,
-              creators: creators.data,
+              series: series.data,
             },
           }
         : { notFound: true };
     } catch (error) {
-      console.log("line 122", error.message);
+      console.log("line 122", error.response);
       return { notFound: true };
     }
   } else {
@@ -247,4 +250,4 @@ export async function getStaticProps({ params }) {
   }
 }
 
-export default withRouter(Comic);
+export default withRouter(Character);

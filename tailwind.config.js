@@ -91,6 +91,9 @@ module.exports = {
         ".h-410px": {
           height: "410px",
         },
+        ".h-40px": {
+          minheight: "40px",
+        },
       };
       addUtilities(newUtilities);
     }),

@@ -6,13 +6,15 @@ import {
   GlobalDispatchProvider as disProvider,
 } from "../../context/GlobalContextProvider";
 import Link from "next/link";
+import { withRouter } from "next/router";
 
 const socket = io(process.env.REACT_APP_SERVER_URL);
 const client = feathers();
 client.configure(feathers.socketio(socket));
 client.configure(feathers.authentication());
 
-export default function Header({
+function Header({
+  router,
   setDisplaySignin,
   displayLogout,
   setDisplayLogout,
@@ -23,6 +25,8 @@ export default function Header({
   const globalState = useContext(stateProvider);
   const dispatch = useContext(disProvider);
 
+  console.log("header", router);
+
   return (
     <div className="flex justify-center flex-col items-center w-full">
       <div className="w-full flex justify-center bg-black">
@@ -32,50 +36,62 @@ export default function Header({
           alt="logo"
         />
       </div>
-
-      {globalState?.firstname ? (
-        <div
-          onClick={(e) => {
-            e.stopPropagation();
-            if (displayLogout) return setDisplayLogout(false);
-            return setDisplayLogout(true);
-          }}
-          className={`flex justify-around w-full hover:bg-red-100 rounded-md cursor-pointer py-2 ${
-            displaySearch && "mt-2"
-          } w-300px`}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+      <div className="relative">
+        {router.query.id && (
+          <span
+            className="absolute -left-20 top-2 hover:underline cursor-pointer font-bold"
+            onClick={() => {
+              router.back();
+            }}
           >
-            <path
-              fillRule="evenodd"
-              d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-              clipRule="evenodd"
-            />
-          </svg>
-          <span className="font-semibold">
-            <span className="text-gray-500">Welcome </span>
-            {globalState.firstname[0].toUpperCase() +
-              globalState.firstname.slice(1) +
-              " " +
-              globalState.lastname.toUpperCase()}
+            Go Back
           </span>
-        </div>
-      ) : (
-        <div
-          onClick={() => {
-            setDisplaySignin(true);
-          }}
-          className={`py-2 ${
-            displaySearch && "mt-2"
-          } cursor-pointer w-300px hover:bg-red-100 rounded-md flex justify-around`}
-        >
-          Sign in
-        </div>
-      )}
+        )}
+
+        {globalState?.firstname ? (
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              if (displayLogout) return setDisplayLogout(false);
+              return setDisplayLogout(true);
+            }}
+            className={`flex justify-around w-full hover:bg-red-100 rounded-md cursor-pointer py-2 ${
+              displaySearch && "mt-2"
+            } w-300px`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <span className="font-semibold">
+              <span className="text-gray-500">Welcome </span>
+              {globalState.firstname[0].toUpperCase() +
+                globalState.firstname.slice(1) +
+                " " +
+                globalState.lastname.toUpperCase()}
+            </span>
+          </div>
+        ) : (
+          <div
+            onClick={() => {
+              setDisplaySignin(true);
+            }}
+            className={`py-2 ${
+              displaySearch && "mt-2"
+            } cursor-pointer w-300px hover:bg-red-100 rounded-md flex justify-around`}
+          >
+            Sign in
+          </div>
+        )}
+      </div>
       {globalState && displayLogout && (
         <div
           onClick={async (e) => {
@@ -220,3 +236,5 @@ export default function Header({
     </div>
   );
 }
+
+export default withRouter(Header);

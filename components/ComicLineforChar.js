@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 export default function ComicLineforChar({
-  name,
+  title,
   url,
   comicsLength,
   id,
@@ -20,10 +20,10 @@ export default function ComicLineforChar({
         }}
       >
         <div className="h-20px w-20px">
-          <img src={url} className="h-full w-full" />
+          <img src={url} alt={title} className="h-full w-full" />
         </div>
         <div className="flex items-center w-225px truncate h-20px">
-          <span className="text-sm">{name}</span>
+          <span className="text-sm">{title}</span>
         </div>
       </a>
     </Link>

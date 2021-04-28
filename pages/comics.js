@@ -9,7 +9,7 @@ import axios from "axios";
 import Card from "../components/Card";
 import Line from "../components/Line";
 
-function Characters({ router, presMainData, characters }) {
+function Comics({ router, presMainData, comics }) {
   const [displaySignin, setDisplaySignin] = useState(false);
   const [displayLogout, setDisplayLogout] = useState(false);
   const dispatch = useContext(disProvider);
@@ -32,7 +32,7 @@ function Characters({ router, presMainData, characters }) {
   return (
     <div>
       <Head>
-        <title>Marvel-Characters</title>
+        <title>Marvel-Comics</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -55,12 +55,11 @@ function Characters({ router, presMainData, characters }) {
             <div className="flex justify-center border-t-2 items-center mt-4 animate-slide relative">
               {presMainData.map((card) => (
                 <Card
-                  name={card.name}
+                  title={card.title}
                   url={card.thumbnail.path + "." + card.thumbnail.extension}
                   isClickable={true}
                   key={card.id}
-                  character={true}
-                  id={card.id}
+                  comic={true}
                 />
               ))}
               {/* <svg
@@ -93,22 +92,23 @@ function Characters({ router, presMainData, characters }) {
                 <span className="font-black">Comics related</span>
               </div>
             </div>
-            {characters.length > 0 &&
-              presMainData.map((char, index) => {
-                let character = characters.find(
-                  (character) => character.id === char.id
-                );
+            {comics.length > 0 &&
+              presMainData.map((com, index) => {
+                let comic = comics.find((comic) => comic.id === com.id);
+
+                if (index === 1) console.log("line 98", com);
+                if (index === 1) console.log("line 99", comic);
 
                 return (
                   <Line
-                    name={char.name}
-                    desc={char.description}
-                    url={char.thumbnail.path + "." + char.thumbnail.extension}
-                    comics={character?.comics && character.comics}
-                    key={char.id}
+                    title={com.title}
+                    desc={com.description}
+                    url={com.thumbnail.path + "." + com.thumbnail.extension}
+                    characters={comic?.characters && comic.characters}
+                    key={com.id}
                     displayDesc={displayDesc}
                     setDisplayDesc={setDisplayDesc}
-                    id={char.id}
+                    id={com.id}
                   />
                 );
               })}
@@ -122,32 +122,34 @@ function Characters({ router, presMainData, characters }) {
 
 export async function getStaticProps() {
   let presMainData;
-  let characters;
+  let comics;
 
   try {
+    // console.log(process.env.REACT_APP_DATA_API);
     const responseResults = await axios.post(
-      process.env.REACT_APP_DATA_API + "/characters",
-      { limit: 20 }
+      process.env.REACT_APP_DATA_API + "/comics"
     );
-    presMainData = responseResults.data.results;
 
-    const chars = [];
+    presMainData = responseResults.data.results;
+    // console.log("line 132", response);
+
+    const comicsList = [];
     for (let i = 0; i < presMainData.length; i++) {
-      const comics = await axios.get(
-        `${process.env.REACT_APP_DATA_API}/character/${presMainData[i].id}/comics`
+      const characters = await axios.get(
+        `${process.env.REACT_APP_DATA_API}/comic/${presMainData[i].id}/characters`
       );
-      if (i === 0) console.log("line 139", comics.data[0]);
-      chars.push({
+      comicsList.push({
         id: presMainData[i].id,
-        comics: comics.data,
+        characters: characters.data,
       });
     }
-    characters = chars;
+    comics = comicsList;
   } catch (error) {
+    console.log("line 112 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
     console.log("line 112", error.message);
   }
 
-  return { props: { presMainData, characters } };
+  return { props: { presMainData, comics } };
 }
 
-export default withRouter(Characters);
+export default withRouter(Comics);
