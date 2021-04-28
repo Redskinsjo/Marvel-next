@@ -1,35 +1,52 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Description
 
-## Getting Started
+Projet front
 
-First, run the development server:
+# Visit the site in production
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+https://marvel-next.vercel.app/
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Libraries used
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Front:
+- React
+- Next
+- Axios
+- Heroicons
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Back:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+[API Feathers for authentication and realtime chat](https://github.com/Redskinsjo/marvel-api-auth-feathers)
+- Feathers
+- Socket.io
 
-## Learn More
+[API Express for fetching data](https://github.com/Redskinsjo/Marvel-api)
+- Express
 
-To learn more about Next.js, take a look at the following resources:
+DB:
+- MongoDB
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## To start
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. Clone the project with :
 
-## Deploy on Vercel
+git clone https://github.com/Redskinsjo/Marvel-next marvel-next-jonathanCarnos
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Navigate toward the folder :
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-# Marvel-next
+cd marvel-next-jonathanCarnos/
+
+3. Install the dependencies avec :
+
+yarn install
+
+4. Developp the project locally with :
+
+yarn start ou yarn run dev
+
+## Functions
+
+- Signin / Signup on a MongoDB database
+- Real-time chat
+- Search information within the Marvel API (characters, comics, etc..)
+
